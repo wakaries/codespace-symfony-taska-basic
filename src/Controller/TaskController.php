@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,14 +46,6 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_task_show', methods: ['GET'])]
-    public function show(Task $task): Response
-    {
-        return $this->render('task/show.html.twig', [
-            'task' => $task,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
     {
@@ -81,4 +74,14 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}', name: 'app_task_detail', methods: ['GET'])]
+    public function detail($id, TaskRepository $taskRepository): Response
+    {
+
+        return $this->render('task/show.html.twig', [
+            'task' => $task,
+        ]);
+    }
+
 }

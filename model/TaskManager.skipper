@@ -11,6 +11,9 @@
       <field name="description" type="text" uuid="d599f81f-0a0a-4fcc-a53d-427158394550"/>
       <field name="status" type="string" size="20" required="true" uuid="e8abbd2c-a1bd-4d8d-ad6e-8ed7cf243297"/>
       <field name="type" type="string" size="20" uuid="920ef5b8-a655-4b04-b9bd-8aa532b07d34"/>
+      <orm-attributes>
+        <attribute name="repository-class">App\Repository\TaskRepository</attribute>
+      </orm-attributes>
     </entity>
     <association from="\App\Entity\Task" to="\App\Entity\Epic" caption="Epic Tasks" owner-alias="tasks" inverse-alias="epic" many-owner="true" many-inverse="false" parent-required="true" uuid="84e08964-1070-49f0-91d5-5e23e3c6f711">
       <association-field from="epic_id" to="id" uuid="1bb1fc4a-e7a4-4ae4-a454-39c2aa8df95a"/>
