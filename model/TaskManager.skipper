@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<skipper version="3.2.35.1768" mvc="Symfony" orm="Doctrine2" name="TaskManager" uuid="98757021-105a-4d3b-a4b6-6327c65e0f06">
+  <module name="\App" local-name="App" namespace="\App\Entity" local-namespace="App\Entity" export-format="Doctrine2Php" export-path="../src/Entity" uuid="a5fb566e-a384-4410-ae49-92ab22602de6">
+    <entity name="\App\Entity\Task" local-name="Task" namespace="\App\Entity" uuid="d6c52976-f459-4546-951e-da8b8aec27b4">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="6ad7f2b2-911f-4eb2-8bff-2d68ee9107c7"/>
+      <field name="epic_id" type="integer" required="true" uuid="397cb074-66ef-45f9-a3b1-1d7a80a95b06"/>
+      <field name="release_id" type="integer" uuid="98e058c6-3735-456c-a986-7651bc5b6f58"/>
+      <field name="alias" type="string" size="20" required="true" unique="true" uuid="d8a564e1-e5e4-4f7c-8758-3b3065537980"/>
+      <field name="creationDate" type="datetime" required="true" uuid="97438088-388e-40fd-b711-6055cbd63ec8"/>
+      <field name="title" type="string" size="255" required="true" uuid="fc77bdbb-cba3-4cc0-951e-01049064936d"/>
+      <field name="description" type="text" uuid="d599f81f-0a0a-4fcc-a53d-427158394550"/>
+      <field name="status" type="string" size="20" required="true" uuid="e8abbd2c-a1bd-4d8d-ad6e-8ed7cf243297"/>
+      <field name="type" type="string" size="20" uuid="920ef5b8-a655-4b04-b9bd-8aa532b07d34"/>
+    </entity>
+    <association from="\App\Entity\Task" to="\App\Entity\Epic" caption="Epic Tasks" owner-alias="tasks" inverse-alias="epic" many-owner="true" many-inverse="false" parent-required="true" uuid="84e08964-1070-49f0-91d5-5e23e3c6f711">
+      <association-field from="epic_id" to="id" uuid="1bb1fc4a-e7a4-4ae4-a454-39c2aa8df95a"/>
+    </association>
+    <association from="\App\Entity\Task" to="\App\Entity\Release" caption="Release Tasks" owner-alias="tasks" inverse-alias="release" many-owner="true" many-inverse="false" uuid="ef34d78f-bfd7-4aa6-b460-2e41739384c2">
+      <association-field from="release_id" to="id" uuid="e3ad8ac5-8527-4d8f-96a3-a1b287dd1272"/>
+    </association>
+    <entity name="\App\Entity\Project" local-name="Project" namespace="\App\Entity" uuid="18d9ddaf-c709-4aee-99ae-d9c53e24f43d">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="5278019f-c3d5-4f5a-8235-988932498922"/>
+      <field name="alias" type="string" size="10" required="true" unique="true" uuid="78a617aa-790d-46f1-8468-4f5f7455f67e"/>
+      <field name="name" type="string" size="255" required="true" uuid="21ec3265-41e9-4eca-b636-a6c9006af239"/>
+      <field name="description" type="text" uuid="a283632b-8073-4267-b941-ce8d528df173"/>
+      <field name="status" type="string" size="20" required="true" uuid="ace6acc5-0e40-4ae9-8d40-30903abd054c"/>
+    </entity>
+    <entity name="\App\Entity\User" local-name="User" namespace="\App\Entity" uuid="2de27472-57f7-4e48-b852-29071618e093">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="b6c4e7ba-0d8a-43b5-b249-af7c5fa6c6e9"/>
+      <field name="username" type="string" size="255" required="true" unique="true" uuid="7ff03441-bd10-4532-af05-a369e58480e1"/>
+      <field name="password" type="string" size="255" required="true" uuid="f2be7cb6-774b-461a-a902-5c460bc42b24"/>
+      <field name="name" type="string" size="255" required="true" uuid="b89b9b24-6efe-40ff-87d4-acda93683c05"/>
+    </entity>
+    <entity name="\App\Entity\Worklog" local-name="Worklog" namespace="\App\Entity" uuid="3f4ab1c1-62c9-4e11-be37-71105cd95fb9">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="a6ca5f46-755a-4de1-a2de-4e65d37c20d4"/>
+      <field name="task_id" type="integer" required="true" uuid="976e17c3-67a2-44dc-9484-45467fc6d437"/>
+      <field name="user_id" type="integer" required="true" uuid="fd3a09f6-7123-4151-ad11-71cc1f030ee4"/>
+      <field name="date" type="datetime" required="true" uuid="32a93394-6c93-4621-812c-81f38365f56e"/>
+      <field name="worklog" type="integer" required="true" uuid="9335a764-6ed9-4b23-a660-7eb115ae841d"/>
+    </entity>
+    <association from="\App\Entity\Worklog" to="\App\Entity\Task" caption="Task Worklogs" owner-alias="worklogs" inverse-alias="task" many-owner="true" many-inverse="false" parent-required="true" uuid="941bccde-98f1-49a0-95ae-ed9fdf0963fe">
+      <association-field from="task_id" to="id" uuid="1279cb21-061c-4491-a9c3-56feca67118c"/>
+    </association>
+    <association from="\App\Entity\Worklog" to="\App\Entity\User" caption="User Worklogs" owner-alias="worklogs" inverse-alias="user" many-owner="true" many-inverse="false" parent-required="true" uuid="02ef5736-baab-4821-987f-2d3410a01955">
+      <association-field from="user_id" to="id" uuid="a37e2e7c-0956-45d2-ac43-2ebcb073bcca"/>
+    </association>
+    <entity name="\App\Entity\Comment" local-name="Comment" namespace="\App\Entity" uuid="69d18586-c50c-4378-aca6-54cd83bc1b98">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="d8dbf68b-81d2-4cea-bf9b-f6949a006934"/>
+      <field name="task_id" type="integer" required="true" uuid="26734787-8bed-4b25-b8b9-ae268f7d870f"/>
+      <field name="user_id" type="integer" required="true" uuid="788a5ab2-b75f-4fc8-81dc-d11272454a9e"/>
+      <field name="date" type="datetime" required="true" uuid="51b5f51d-2d0a-42b5-8409-c37ca191552e"/>
+      <field name="comment" type="text" uuid="05720c56-2e8e-4d0c-b350-e697b3d894fb"/>
+    </entity>
+    <association from="\App\Entity\Comment" to="\App\Entity\Task" caption="Task Comments" owner-alias="comments" inverse-alias="task" many-owner="true" many-inverse="false" parent-required="true" uuid="c3ef6f3a-5ae2-44e0-8c17-5ecea810c4ae">
+      <association-field from="task_id" to="id" uuid="cdf54835-854c-4a9e-b658-01315627f775"/>
+    </association>
+    <association from="\App\Entity\Comment" to="\App\Entity\User" caption="User Comments" owner-alias="comments" inverse-alias="user" many-owner="true" many-inverse="false" parent-required="true" uuid="85251054-21ea-43d9-94a2-f17c444edb3e">
+      <association-field from="user_id" to="id" uuid="3b797ee5-a91e-4851-8650-8f3b9163dc87"/>
+    </association>
+    <entity name="\App\Entity\Epic" local-name="Epic" namespace="\App\Entity" uuid="249bbb23-af5e-4340-a120-5f717b1aa985">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="7aedb3e2-d3e4-47ae-899f-44d89d00b24f"/>
+      <field name="project_id" type="integer" required="true" uuid="eeba07bd-931c-4b19-8892-30779577da52"/>
+      <field name="alias" type="string" size="20" required="true" unique="true" uuid="c4372a9b-f668-48f6-a36e-9e1358d5170d"/>
+      <field name="title" type="string" size="255" required="true" uuid="b57b8133-e11f-40ea-a178-c781e8ef7904"/>
+      <field name="description" type="text" uuid="3f769370-ef62-4aa0-911d-3cc1439cc9f9"/>
+      <field name="status" type="string" size="20" required="true" uuid="52260e5e-c063-4569-8672-0f0239edab2f"/>
+    </entity>
+    <association from="\App\Entity\Epic" to="\App\Entity\Project" caption="Project Epics" owner-alias="epics" inverse-alias="project" many-owner="true" many-inverse="false" parent-required="true" uuid="706c0fc1-0466-45de-a68b-1db4004c29f4">
+      <association-field from="project_id" to="id" uuid="08434b6b-bf1f-4cb2-a7fe-b072d2117c86"/>
+    </association>
+    <entity name="\App\Entity\Release" local-name="Release" namespace="\App\Entity" uuid="3581004a-2b0e-468b-8610-a24c85716c0d">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="5c5a9e45-6f01-427c-8aea-4a60a99bc25a"/>
+      <field name="project_id" type="integer" required="true" uuid="d4d066e9-62bb-4e99-ad0a-763b7086470f"/>
+      <field name="startDate" type="date" required="true" uuid="475ad56c-5d03-491d-8150-1e4b52be75d8"/>
+      <field name="endDate" type="date" uuid="eac03fb4-f8e4-4ce7-9c41-171cb3861230"/>
+      <field name="name" type="string" size="255" required="true" uuid="f637b82f-864b-4b57-a9d2-4d803bc3f124"/>
+      <field name="status" type="string" size="20" required="true" uuid="f4902d17-ad87-4208-972d-b77de5d3e00d"/>
+    </entity>
+    <association from="\App\Entity\Release" to="\App\Entity\Project" caption="Project Releases" owner-alias="releases" inverse-alias="project" many-owner="true" many-inverse="false" parent-required="true" uuid="8837e9b0-461d-45a9-a31f-279df3bbf55b">
+      <association-field from="project_id" to="id" uuid="e0af1fac-f220-4527-9b7b-137621dfaad1"/>
+    </association>
+    <entity name="\App\Entity\UserProject" local-name="UserProject" namespace="\App\Entity" uuid="8ea14265-dbe3-45cd-ba52-c8e30f985dde">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="cf289769-e5b1-47b8-a922-bee39d73f890"/>
+      <field name="project_id" type="integer" required="true" uuid="cdd0046d-1675-4a22-b686-041332a47ecf"/>
+      <field name="user_id" type="integer" required="true" uuid="4c1998b7-6ce5-4547-8c41-84bb24e7888e"/>
+      <field name="role" type="string" size="20" required="true" uuid="454c3085-a94e-48d9-8987-49ae159aed8e"/>
+    </entity>
+    <association from="\App\Entity\UserProject" to="\App\Entity\Project" caption="Project UserProjects" owner-alias="userProjects" inverse-alias="project" many-owner="true" many-inverse="false" parent-required="true" uuid="2f2dab7f-6b89-4efa-8dbd-8f6b0630daed">
+      <association-field from="project_id" to="id" uuid="1c5486db-9342-4076-b57e-df866c17339a"/>
+    </association>
+    <association from="\App\Entity\UserProject" to="\App\Entity\User" caption="User UserProjects" owner-alias="userProjects" inverse-alias="user" many-owner="true" many-inverse="false" parent-required="true" uuid="b011b69d-726f-46e7-9808-be467a5f4e3b">
+      <association-field from="user_id" to="id" uuid="8729b4e5-8b57-4a1e-9b4b-edbb28bcccbd"/>
+    </association>
+    <entity name="\App\Entity\Tag" local-name="Tag" namespace="\App\Entity" uuid="d54bb0f4-9413-4e0c-a00c-9531b75c6c5b">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="81cc8496-46f8-451a-beef-5ea7cb06ca52"/>
+      <field name="name" type="string" size="255" required="true" uuid="e67067b8-3516-486a-8c87-874fa46072f6"/>
+    </entity>
+    <entity name="\App\Entity\TaskTag" local-name="TaskTag" namespace="\App\Entity" uuid="f8c1dcf9-4835-4388-bf85-933a753facec">
+      <field name="task_id" type="integer" required="true" primary="true" uuid="79849ad9-ae09-417c-818c-5fe4d58a608b"/>
+      <field name="tag_id" type="integer" required="true" primary="true" uuid="a725fed1-cd12-4427-8d91-2ff8b7ef34f8"/>
+    </entity>
+    <many-to-many mn-entity="\App\Entity\TaskTag" caption="Tag to Task" uuid="0003bf0b-e9b0-4eb4-8cd7-649b3d19ed4e">
+      <many-to-many-entity name="\App\Entity\Task" owning-side="true" alias="tasks" uuid="7fe26a87-45e7-4bf8-b4d2-d51f244737ba">
+        <many-to-many-field from="task_id" to="id" uuid="afe87304-2a39-4b4a-ab8b-fd823206b55d"/>
+      </many-to-many-entity>
+      <many-to-many-entity name="\App\Entity\Tag" owning-side="false" alias="tags" uuid="2d8df893-1e80-4776-b1ed-170d4e6f565d">
+        <many-to-many-field from="tag_id" to="id" uuid="7a50fb2c-d8cd-49d3-8c98-5e194b4b5cf0"/>
+      </many-to-many-entity>
+    </many-to-many>
+    <orm-attributes>
+      <attribute name="filename-format">entity-name-only</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <association uuid="02ef5736-baab-4821-987f-2d3410a01955" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="2f2dab7f-6b89-4efa-8dbd-8f6b0630daed" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="706c0fc1-0466-45de-a68b-1db4004c29f4" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="84e08964-1070-49f0-91d5-5e23e3c6f711" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="85251054-21ea-43d9-94a2-f17c444edb3e" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="8837e9b0-461d-45a9-a31f-279df3bbf55b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="941bccde-98f1-49a0-95ae-ed9fdf0963fe" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="b011b69d-726f-46e7-9808-be467a5f4e3b" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="c3ef6f3a-5ae2-44e0-8c17-5ecea810c4ae" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <association uuid="ef34d78f-bfd7-4aa6-b460-2e41739384c2" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <entity uuid="18d9ddaf-c709-4aee-99ae-d9c53e24f43d" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="291" position-y="-10" size-x="0" size-x2="101" size-y="0" size-y2="87"/>
+    <entity uuid="249bbb23-af5e-4340-a120-5f717b1aa985" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="113" position-y="94" size-x="0" size-x2="102" size-y="0" size-y2="101"/>
+    <entity uuid="2de27472-57f7-4e48-b852-29071618e093" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="724" position-y="298" size-x="0" size-x2="119" size-y="0" size-y2="73"/>
+    <entity uuid="3581004a-2b0e-468b-8610-a24c85716c0d" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="389" position-y="124" size-x="0" size-x2="102" size-y="0" size-y2="101"/>
+    <entity uuid="3f4ab1c1-62c9-4e11-be37-71105cd95fb9" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="521" position-y="220" size-x="0" size-x2="93" size-y="0" size-y2="87"/>
+    <entity uuid="69d18586-c50c-4378-aca6-54cd83bc1b98" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="537" position-y="368" size-x="0" size-x2="92" size-y="0" size-y2="87"/>
+    <entity uuid="8ea14265-dbe3-45cd-ba52-c8e30f985dde" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="729" position-y="12" size-x="0" size-x2="102" size-y="0" size-y2="73"/>
+    <entity uuid="d54bb0f4-9413-4e0c-a00c-9531b75c6c5b" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="53" position-y="406" size-x="0" size-x2="101" size-y="0" size-y2="45"/>
+    <entity uuid="d6c52976-f459-4546-951e-da8b8aec27b4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="256" position-y="254" size-x="0" size-x2="123" size-y="0" size-y2="129"/>
+    <entity uuid="f8c1dcf9-4835-4388-bf85-933a753facec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="61" position-y="274" size-x="0" size-x2="92" size-y="0" size-y2="60"/>
+    <many-to-many-association uuid="0003bf0b-e9b0-4eb4-8cd7-649b3d19ed4e" color="#969696"/>
+    <many-to-many-association-entity uuid="2d8df893-1e80-4776-b1ed-170d4e6f565d" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
+    <many-to-many-association-entity uuid="7fe26a87-45e7-4bf8-b4d2-d51f244737ba" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0"/>
+    <module uuid="a5fb566e-a384-4410-ae49-92ab22602de6" bg-color="#FEFCE8" position-x="61" position-y="72" size-x="39" size-x2="916" size-y="22" size-y2="472"/>
+    <project uuid="98757021-105a-4d3b-a4b6-6327c65e0f06" size-x="0" size-x2="1027" size-y="0" size-y2="562"/>
+  </visual-data>
+</skipper>
